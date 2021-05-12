@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<H1> City </H1> <br />
+<table>
+<tr>
+    <td>ID</td>
+    <td th:text="${{city.id}}"></td>
+</tr>
+<tr>
+    <td>Name</td>
+    <td th:text="${{city.cityName}}"></td>
+</tr>
+<tr>
+    <td>CountryCode</td>
+    <td th:text="${{city.countryCode}}"></td>
+</tr>
+<tr>
+    <td>Country Name</td>
+    <td th:text="${{city.countryName}}"></td>
+</tr>
+<tr>
+    <td>District</td>
+    <td th:text="${{city.district}}"></td>
+</tr>
+<tr>
+    <td>Population</td>
+    <td th:text="${{city.population}}"></td>
+</tr>
+<tr>
+    <td>Local weather</td>
+    <td th:text="${{city.timeAndTemp.temp}}"></td>
+</tr>
+<tr>
+    <td>Local Time</td>
+    <td th:text="${{city.timeAndTemp.time}}"></td>
+</tr>
+</table>
+
+</body>
+</html>
+
