@@ -27,6 +27,8 @@ public class WeatherService {
 
     }
 
+
+
     public TempAndTime getTempAndTime(String cityName) {
         ResponseEntity<JsonNode> response =
                 restTemplate.getForEntity(
