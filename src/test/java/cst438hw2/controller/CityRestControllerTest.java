@@ -61,11 +61,13 @@ public class CityRestControllerTest {
         TempAndTime timeAndTemp = new TempAndTime(7.0, "3:00PM", 3);
         CityInfo cityInfo = new CityInfo(1,"TestCity","Test Country","TEST","DistrictTest",
                 100000,timeAndTemp);
-        Mockito.when(cityService.getCityInfo("TestCity")).thenReturn(cityInfo);
+
         Country country = new Country("Test Country","TST");
         City city = new City(1,"TestCity","DistrictTest", 100000, country);
         List<City> cities = new ArrayList<City>();
         cities.add(city);
+
+        Mockito.when(cityService.getCityInfo("TestCity")).thenReturn(cityInfo);
         Mockito.when(cityRepository.findByName("TestCity")).thenReturn(cities);
 
 
