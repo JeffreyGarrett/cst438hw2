@@ -1,8 +1,13 @@
 package cst438hw2.service;
 
-import cst438hw2.domain.*;
+import cst438hw2.domain.City;
+import cst438hw2.domain.CityInfo;
+import cst438hw2.domain.CityRepository;
+import cst438hw2.domain.CountryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CityService {
@@ -17,17 +22,17 @@ public class CityService {
     private CityInfo cityInfo;
 
     public CityInfo getCityInfo(String cityName) {
-        //ystem.out.println("City Name: " + cityName );
-        City city = cityRepository.findByName(cityName);
-        Country country = countryRepository.findByCode(city.getCountryCode());
-        TempAndTime tempAndTime = weatherService.getTempAndTime(cityName);
+        List<City> cities = cityRepository.findByName(cityName);
+        if(cities.size()==0) {
+            return null;
+        } else  {
+            //If many take first
+            City city = cities.get(0);
 
-        this.cityInfo = new CityInfo(city.getID(), city.getName(), city.getCountryCode(),
-                country.getName(), city.getDistrict(),
-                city.getPopulation(), tempAndTime );
-
-        return this.cityInfo;
-
+            return new CityInfo(city.getId(), city.getName(), city.getCountry().getName(),
+                    city.getCountry().getCode(), city.getDistrict(), city.getPopulation(),
+                    weatherService.getTimeAndTemp(cityName));
+        }
     }
 
     public CityService(){}

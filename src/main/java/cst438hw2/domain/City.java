@@ -1,7 +1,5 @@
 package cst438hw2.domain;
 
-import cst438hw2.service.WeatherService;
-
 import javax.persistence.*;
 
 @Entity
@@ -9,76 +7,69 @@ import javax.persistence.*;
 public class City {
 
     @Id
-    private int ID;
-    @Column(columnDefinition = "char")
+    private int Id;
     private String name;
-    @Column(columnDefinition = "char")
     private String district;
     private int population;
-    @Column(columnDefinition = "char", insertable = false, updatable = false)
-    private String countrycode;
 
     @Transient
-    WeatherService weather;
+    TempAndTime TimeAndTempCity;
 
     @ManyToOne
-    @JoinColumn(name = "countrycode", referencedColumnName = "code")
+    @JoinColumn(name="countrycode",referencedColumnName="code")
     private Country country;
 
-    public City(){
+    public City() {
+
     }
 
-    public City(int ID, String name, String district, int population, String country) {
-        this.ID = ID;
+    public City(int id, String name, String district, int population, Country country) {
+        this.Id = id;
         this.name = name;
         this.district = district;
         this.population = population;
-        this.countrycode = country;
+        this.country = country;
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return Id;
     }
-
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setId(int id) {
+        this.Id = id;
     }
-
+    public String getDistrict() {
+        return district;
+    }
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+    public int getPopulation() {
+        return population;
+    }
+    public void setPopulation(int population) {
+        this.population = population;
+    }
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getCountryCode() {
-        return this.countrycode;
+    public Country getCountry() {
+        return country;
     }
 
-
-    public String getDistrict() {
-        return district;
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
-    public void setDistrict(String district) {
-        this.district = district;
+    public TempAndTime getTimeAndTempCity() {
+        return TimeAndTempCity;
     }
 
-    public int getPopulation() {
-        return population;
-    }
-
-    public void setPopulation(int population) {
-        this.population = population;
-    }
-
-    public WeatherService getWeather() {
-        return weather;
-    }
-
-    public void setWeather(WeatherService weather) {
-        this.weather = weather;
+    public void setTimeAndTempCity(TempAndTime timeAndTempCity) {
+        TimeAndTempCity = timeAndTempCity;
     }
 
 }

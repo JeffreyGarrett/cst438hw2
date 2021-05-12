@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 
 @WebMvcTest(CityRestController.class)
 public class CityRestControllerTest {
@@ -35,8 +37,8 @@ public class CityRestControllerTest {
     }
     @Test
     public void testGetWeather() throws Exception {
-        //Setup - Arrange
-        TempAndTime timeAndTemp = new TempAndTime(7.0, 10000, 3);
+
+        TempAndTime timeAndTemp = new TempAndTime(7.0, "3:00PM", 3);
         CityInfo cityInfo = new CityInfo(1,"TestCity","Test Country","TEST","DistrictTest",
                 100000,timeAndTemp);
         Mockito.when(cityService.getCityInfo("TestCity")).thenReturn(cityInfo);
@@ -45,14 +47,64 @@ public class CityRestControllerTest {
         List<City> cities = new ArrayList<City>();
         cities.add(city);
         Mockito.when(cityRepository.findByName("TestCity")).thenReturn(cities);
-        //Call - Act
+
         ResponseEntity<CityInfo> response = cityRestController.getWeather("TestCity");
-        //Check - Assert
+
         assertThat(response.getStatusCodeValue()).isEqualTo(HttpStatus.OK.value());
         assertThat(response.getBody()).isEqualTo(cityInfo);
-        //GETMAPPING NOT TESTED
-        //MockHttpServletResponse response = mvc.perform(get("/city/TestCity")).andReturn().getResponse();
+
     }
+
+    @Test
+    public void testNullCity() throws Exception {
+
+        TempAndTime timeAndTemp = new TempAndTime(7.0, "3:00PM", 3);
+        CityInfo cityInfo = new CityInfo(1,"TestCity","Test Country","TEST","DistrictTest",
+                100000,timeAndTemp);
+        Mockito.when(cityService.getCityInfo("TestCity")).thenReturn(cityInfo);
+        Country country = new Country("Test Country","TST");
+        City city = new City(1,"TestCity","DistrictTest", 100000, country);
+        List<City> cities = new ArrayList<City>();
+        cities.add(city);
+        Mockito.when(cityRepository.findByName("TestCity")).thenReturn(cities);
+
+
+        ResponseEntity<CityInfo> response = cityRestController.getWeather("Not_Found");
+
+        assertThat(response.getStatusCodeValue()).isEqualTo(HttpStatus.NOT_FOUND.value());
+        assertThat(response.getBody()).isEqualTo(null);
+
+    }
+
+    @Test
+    public void testMultipleCities() throws Exception {
+
+        TempAndTime timeAndTemp = new TempAndTime(7.0, "3:00PM", 3);
+        CityInfo cityInfo = new CityInfo(1,"TestCity","Test Country","TEST","DistrictTest",
+                100000,timeAndTemp);
+
+        Country country = new Country("Test Country","TST");
+        City city = new City(1,"TestCity","DistrictTest", 100000, country);
+
+
+
+
+        List<City> cities = new ArrayList<City>();
+        cities.add(city);
+
+        Mockito.when(cityService.getCityInfo("TestCity")).thenReturn(cityInfo);
+        Mockito.when(cityRepository.findByName("TestCity")).thenReturn(cities);
+
+
+        ResponseEntity<CityInfo> response = cityRestController.getWeather("TestCity");
+
+        assertThat(response.getStatusCodeValue()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.getBody()).isEqualTo(cityInfo);
+        assertThat(response.getBody().getId() == 1);
+
+    }
+
+
 }
 
 
