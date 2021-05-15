@@ -4,6 +4,8 @@ import cst438hw2.domain.City;
 import cst438hw2.domain.CityInfo;
 import cst438hw2.domain.CityRepository;
 import cst438hw2.domain.CountryRepository;
+import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +20,14 @@ public class CityService {
     private CountryRepository countryRepository;
     @Autowired
     private WeatherService weatherService;
-
     private CityInfo cityInfo;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private FanoutExchange fanout;
+
 
     public CityInfo getCityInfo(String cityName) {
         List<City> cities = cityRepository.findByName(cityName);
@@ -46,5 +54,21 @@ public class CityService {
 
     }
 
+    public CityService(RabbitTemplate rabbitTemplate, FanoutExchange fanout) {
+        this.rabbitTemplate = rabbitTemplate;
+        this.fanout = fanout;
+    }
 
+    public void requestReservation(String cityName, String level, String email) {
+        String msg = "{\"cityName\": \""+ cityName +
+                "\" \"level\": \""+level+
+                "\" \"email\": \""+email+"\"}" ;
+        System.out.println("Sending message:"+msg);
+        rabbitTemplate.convertSendAndReceive(
+
+                fanout.getName(),
+                "", // routing key none.
+
+        msg);
+    }
 }

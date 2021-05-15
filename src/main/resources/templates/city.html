@@ -1,46 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<H1> City </H1> <br />
-<table>
-<tr>
-    <td>ID</td>
-    <td th:text="${{city.id}}"></td>
-</tr>
-<tr>
-    <td>Name</td>
-    <td th:text="${{city.cityName}}"></td>
-</tr>
-<tr>
-    <td>CountryCode</td>
-    <td th:text="${{city.countryCode}}"></td>
-</tr>
-<tr>
-    <td>Country Name</td>
-    <td th:text="${{city.countryName}}"></td>
-</tr>
-<tr>
-    <td>District</td>
-    <td th:text="${{city.district}}"></td>
-</tr>
-<tr>
-    <td>Population</td>
-    <td th:text="${{city.population}}"></td>
-</tr>
-<tr>
-    <td>Local weather</td>
-    <td th:text="${{city.timeAndTemp.temp}}"></td>
-</tr>
-<tr>
-    <td>Local Time</td>
-    <td th:text="${{city.timeAndTemp.time}}"></td>
-</tr>
-</table>
+    <H1> City </H1> <br/>
+    <table>
+        <tr>
+            <td>ID</td>
+            <td th:text="${{city.id}}"></td>
+        </tr>
+        <tr>
+            <td>Name</td>
+            <td th:text="${{city.cityName}}"></td>
+        </tr>
+        <tr>
+            <td>CountryCode</td>
+            <td th:text="${{city.countryCode}}"></td>
+        </tr>
+        <tr>
+            <td>Country Name</td>
+            <td th:text="${{city.countryName}}"></td>
+        </tr>
+        <tr>
+            <td>District</td>
+            <td th:text="${{city.district}}"></td>
+        </tr>
+        <tr>
+            <td>Population</td>
+            <td th:text="${{city.population}}"></td>
+        </tr>
+        <tr>
+            <td>Local weather</td>
+            <td th:text="${{city.timeAndTemp.temp}}"></td>
+        </tr>
+        <tr>
+            <td>Local Time</td>
+            <td th:text="${{city.timeAndTemp.time}}"></td>
+        </tr>
+    </table>
 
+    <br />
+    <p> For a fabulous weekend get away for 2 to Boston sign up here</p>
+
+    <form action="/cities/reservation" method="post">
+        <label for="email" required>Email:</label>
+        <input type="text" id="email" name="email" value=""><br>
+        <input type="radio" id="luxury" name="level" value="luxury">
+        <label for="luxury">Luxury $1000</label><br>
+        <input type="radio" id="good" name="level" value="good">
+        <label for="good">Good $500</label><br>
+        <input type="radio" id="basic" name="level" value="basic">
+        <label for="basic">Basic $100</label><br>
+        <input id="city" name="city" type="hidden" th:value="${{city.cityName}}">
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>
-
