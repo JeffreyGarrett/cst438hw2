@@ -5,6 +5,8 @@ import cst438hw2.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
+import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -25,6 +27,12 @@ public class CityServiceTest {
 
     @MockBean
     private WeatherService mockWeatherService;
+
+    @MockBean
+    private RabbitTemplate rabbitTemplate;
+
+    @MockBean
+    private FanoutExchange fanout;
 
     @BeforeEach
     public void setUpEach() {
@@ -54,6 +62,15 @@ public class CityServiceTest {
 
 
     }
+
+    @Test
+    public void rabbitMQTest() throws Exception{
+
+
+
+    }
+
+
 
 
 }
